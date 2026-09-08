@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANCADA.GG — Montagem e manutenção de PC gamer</title>
+<meta name="description" content="Montagem sob medida, manutenção preventiva, upgrade e modding de PC gamer. Diagnóstico honesto, orçamento sem letra miúda e garantia em todo serviço.">
+<meta name="theme-color" content="#12161a">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="BANCADA.GG — Montagem e manutenção de PC gamer">
+<meta property="og:description" content="Montagem, manutenção e upgrade de PC gamer com diagnóstico, orçamento transparente e testes de estabilidade.">
+<meta property="og:image" content="pc-gamer-hero.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #12161a;
+    --bg-alt: #171d22;
+    --panel: #1c242b;
+    --panel-2: #212a31;
+    --line: #2b353d;
+    --line-soft: #232c33;
+    --copper: #c9803f;
+    --copper-bright: #e6a35c;
+    --teal: #57c9bd;
+    --text: #edf0f2;
+    --text-muted: #93a2ac;
+    --text-dim: #647079;
+    --radius: 3px;
+    --maxw: 1180px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    line-height:1.15;
+    margin:0;
+    color:#fff;
+  }
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  ul{margin:0;padding:0;list-style:none;}
+  img,svg{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  ::selection{background:var(--copper);color:#12161a;}
+
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--copper-bright);
+    outline-offset:2px;
+  }
+
+  /* background dot grid, subtle */
+  .grid-field{
+    position:fixed;
+    inset:0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size: 26px 26px;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(18,22,26,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:72px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:0.2px;
+    color:#fff;
+  }
+  .brand-mark{
+    width:30px;height:30px;
+    flex:none;
+  }
+  .brand small{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    color:var(--copper-bright);
+    margin-top:1px;
+  }
+  nav.primary-nav{display:flex;align-items:center;gap:36px;}
+  nav.primary-nav a{
+    font-size:14.5px;
+    color:var(--text-muted);
+    transition:color .15s ease;
+    position:relative;
+  }
+  nav.primary-nav a:hover{color:#fff;}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:11px 20px;
+    border-radius:var(--radius);
+    font-size:14.5px;
+    font-weight:600;
+    border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:var(--copper);
+    color:#161010;
+  }
+  .btn-primary:hover{background:var(--copper-bright);}
+  .btn-ghost{
+    border-color:var(--line);
+    color:var(--text);
+  }
+  .btn-ghost:hover{border-color:var(--copper);color:var(--copper-bright);}
+  .header-actions{display:flex;align-items:center;gap:14px;}
+  .menu-toggle{
+    display:none;
+    background:none;border:1px solid var(--line);
+    width:40px;height:40px;border-radius:var(--radius);
+    align-items:center;justify-content:center;
+  }
+  .menu-toggle svg{width:18px;height:18px;stroke:var(--text);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    padding:76px 0 60px;
+    overflow:hidden;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:56px;
+    align-items:center;
+    position:relative;
+    z-index:1;
+  }
+  .kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--copper-bright);
+    border:1px solid var(--line);
+    padding:6px 12px 6px 10px;
+    border-radius:var(--radius);
+    margin-bottom:22px;
+  }
+  .kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex:none;
+    box-shadow:0 0 0 3px rgba(87,201,189,0.15);}
+  .hero h1{
+    font-size:clamp(32px, 4.4vw, 50px);
+    letter-spacing:-0.01em;
+    max-width:16ch;
+  }
+  .hero h1 .accent{color:var(--copper-bright);}
+  .hero-sub{
+    margin-top:22px;
+    font-size:17px;
+    color:var(--text-muted);
+    max-width:46ch;
+  }
+  .hero-cta{
+    display:flex;
+    gap:14px;
+    margin-top:32px;
+    flex-wrap:wrap;
+  }
+  .hero-meta{
+    display:flex;
+    gap:26px;
+    margin-top:40px;
+    padding-top:28px;
+    border-top:1px solid var(--line-soft);
+    flex-wrap:wrap;
+  }
+  .hero-meta div{max-width:180px;}
+  .hero-meta .n{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--copper-bright);
+    font-size:13px;
+  }
+  .hero-meta p{font-size:13.5px;color:var(--text-dim);margin-top:4px;}
+
+  .hero-art{position:relative;}
+  .hero-art svg{width:100%;height:auto;}
+  .hero-photo{position:relative;min-height:520px;display:flex;align-items:center;justify-content:center;}
+  .hero-photo::before{content:"";position:absolute;inset:7% 2% 5% 7%;background:radial-gradient(circle at 55% 48%,rgba(230,163,92,.18),transparent 58%);filter:blur(20px);pointer-events:none;}
+  .hero-photo img{position:relative;width:100%;max-width:610px;aspect-ratio:1/1;object-fit:cover;object-position:center;border-radius:18px;border:1px solid rgba(230,163,92,.22);box-shadow:0 30px 70px rgba(0,0,0,.45),0 0 60px rgba(201,128,63,.08);}
+  .hero-photo-badge{position:absolute;left:18px;bottom:26px;display:flex;align-items:center;gap:9px;padding:10px 14px;background:rgba(18,22,26,.86);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:999px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-muted);box-shadow:0 12px 30px rgba(0,0,0,.3);}
+  .hero-photo-badge span{width:7px;height:7px;border-radius:50%;background:var(--copper-bright);box-shadow:0 0 0 4px rgba(230,163,92,.12);}
+
+
+  /* ---------- Stat strip ---------- */
+  .stat-strip{
+    border-top:1px solid var(--line-soft);
+    border-bottom:1px solid var(--line-soft);
+    background:var(--bg-alt);
+  }
+  .stat-strip .wrap{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+  }
+  .stat-cell{
+    padding:26px 24px;
+    border-left:1px solid var(--line-soft);
+  }
+  .stat-cell:first-child{border-left:none;}
+  .stat-cell .val{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:26px;
+    color:#fff;
+  }
+  .stat-cell .lbl{
+    font-size:13px;
+    color:var(--text-dim);
+    margin-top:4px;
+  }
+
+  /* ---------- Section shared ---------- */
+  section{padding:96px 0;position:relative;z-index:1;}
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:32px;
+    margin-bottom:52px;
+    border-bottom:1px solid var(--line-soft);
+    padding-bottom:26px;
+  }
+  .section-head .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--copper-bright);
+    margin-bottom:12px;
+    display:block;
+  }
+  .section-head h2{font-size:clamp(26px,3vw,36px);max-width:20ch;}
+  .section-head .desc{max-width:34ch;color:var(--text-muted);font-size:15px;}
+
+  /* ---------- Services (order board) ---------- */
+  .service-board{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .service-row{
+    display:grid;
+    grid-template-columns:56px 1fr 1.4fr 160px;
+    gap:24px;
+    align-items:center;
+    padding:26px 28px;
+    border-top:1px solid var(--line-soft);
+    transition:background .15s ease;
+  }
+  .service-row:first-child{border-top:none;}
+  .service-row:hover{background:var(--panel);}
+  .service-icon{
+    width:40px;height:40px;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    flex:none;
+  }
+  .service-icon svg{width:20px;height:20px;stroke:var(--copper-bright);}
+  .service-name h3{font-size:18px;}
+  .service-desc{color:var(--text-muted);font-size:14.5px;}
+  .service-code{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--text-dim);
+    text-align:right;
+  }
+  .service-code span{color:var(--teal);}
+
+  /* ---------- Process ---------- */
+  .process-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .process-step{
+    padding:30px 26px;
+    border-left:1px solid var(--line-soft);
+    position:relative;
+  }
+  .process-step:first-child{border-left:none;}
+  .process-step .num{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--copper-bright);
+    font-size:13px;
+  }
+  .process-step h3{font-size:17px;margin-top:14px;}
+  .process-step p{margin-top:10px;font-size:14px;color:var(--text-muted);}
+
+  /* ---------- Plans ---------- */
+  .plans{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  .plan{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:30px 26px;
+    display:flex;
+    flex-direction:column;
+    background:var(--bg-alt);
+  }
+  .plan.is-featured{
+    border-color:var(--copper);
+    background:linear-gradient(180deg, rgba(201,128,63,0.08), var(--bg-alt) 40%);
+  }
+  .plan-tag{font-family:'IBM Plex Mono', monospace;font-size:12px;color:var(--text-dim);}
+  .plan-tag.is-on{color:var(--copper-bright);}
+  .plan h3{font-size:21px;margin-top:10px;}
+  .plan .who{font-size:13.5px;color:var(--text-muted);margin-top:6px;}
+  .plan .price{margin-top:22px;display:flex;align-items:baseline;gap:6px;}
+  .plan .price .amt{font-family:'Space Grotesk', sans-serif;font-size:30px;font-weight:700;color:#fff;}
+  .plan .price .per{font-size:13px;color:var(--text-dim);}
+  .plan-feats{margin-top:22px;display:flex;flex-direction:column;gap:11px;flex:1;}
+  .plan-feats li{
+    display:flex;
+    gap:10px;
+    font-size:14px;
+    color:var(--text-muted);
+    align-items:flex-start;
+  }
+  .plan-feats svg{width:15px;height:15px;flex:none;margin-top:3px;stroke:var(--teal);}
+  .plan .btn{margin-top:26px;justify-content:center;}
+
+  /* ---------- Projects gallery ---------- */
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  .gcard{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    background:var(--bg-alt);
+  }
+  .gcard .art{
+    aspect-ratio:4/3;
+    border-bottom:1px solid var(--line-soft);
+    display:flex;align-items:center;justify-content:center;
+    padding:18px;
+  }
+  .gcard .art svg{width:100%;height:100%;}
+  .gcard .art img{width:100%;height:100%;object-fit:cover;}
+  .gcard .meta{padding:18px 20px 22px;}
+  .gcard h3{font-size:16px;}
+  .gcard .specs{
+    margin-top:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+    line-height:1.7;
+  }
+  .gcard .specs span{color:var(--copper-bright);}
+
+  /* ---------- Testimonials ---------- */
+  .testis{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  .testi{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px;
+    background:var(--panel);
+  }
+  .testi .stars{display:flex;gap:3px;margin-bottom:16px;}
+  .testi .stars svg{width:14px;height:14px;fill:var(--copper-bright);stroke:none;}
+  .testi p.quote{font-size:14.5px;color:var(--text);line-height:1.6;}
+  .testi .who{
+    margin-top:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:13.5px;
+    color:var(--text-dim);
+    border-top:1px solid var(--line-soft);
+    padding-top:16px;
+  }
+  .testi .who b{color:var(--text-muted);font-weight:600;}
+
+  /* ---------- Contact ---------- */
+  .contact-panel{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .contact-info{
+    padding:44px 40px;
+    background:var(--bg-alt);
+    border-right:1px solid var(--line-soft);
+  }
+  .contact-info h3{font-size:22px;max-width:14ch;}
+  .contact-info p{color:var(--text-muted);margin-top:14px;font-size:14.5px;}
+  .contact-list{margin-top:30px;display:flex;flex-direction:column;gap:18px;}
+  .contact-list li{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--text-muted);}
+  .contact-list svg{width:17px;height:17px;stroke:var(--copper-bright);flex:none;margin-top:2px;}
+  .contact-list b{color:var(--text);display:block;font-size:13.5px;}
+  .contact-form{padding:44px 40px;}
+  .field{margin-bottom:18px;}
+  .field label{
+    display:block;
+    font-size:12.5px;
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--text-dim);
+    margin-bottom:8px;
+  }
+  .field input, .field select, .field textarea{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:12px 14px;
+    color:var(--text);
+    font-family:inherit;
+    font-size:14.5px;
+  }
+  .field textarea{resize:vertical;min-height:90px;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .form-note{font-size:12.5px;color:var(--text-dim);margin-top:6px;}
+  .contact-form .btn{width:100%;justify-content:center;margin-top:6px;padding:14px;font-size:15px;}
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top:1px solid var(--line-soft);
+    padding:56px 0 30px;
+  }
+  .foot-top{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr;
+    gap:40px;
+    padding-bottom:40px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .foot-brand p{color:var(--text-muted);font-size:13.5px;margin-top:14px;max-width:32ch;}
+  .foot-col h4{font-size:13px;font-family:'IBM Plex Mono', monospace;color:var(--text-dim);margin-bottom:16px;font-weight:500;}
+  .foot-col ul{display:flex;flex-direction:column;gap:11px;}
+  .foot-col a{font-size:14px;color:var(--text-muted);}
+  .foot-col a:hover{color:var(--copper-bright);}
+  .foot-bottom{
+    display:flex;
+    justify-content:space-between;
+    padding-top:26px;
+    font-size:12.5px;
+    color:var(--text-dim);
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .foot-social{display:flex;gap:14px;}
+  .foot-social a{
+    width:34px;height:34px;border:1px solid var(--line);border-radius:var(--radius);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .foot-social svg{width:15px;height:15px;stroke:var(--text-muted);}
+  .foot-social a:hover svg{stroke:var(--copper-bright);}
+
+  /* whatsapp float */
+  .wa-float{
+    position:fixed;
+    right:24px;bottom:24px;
+    z-index:60;
+    width:56px;height:56px;
+    border-radius:50%;
+    background:#25D366;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 22px rgba(0,0,0,0.35);
+  }
+  .wa-float svg{width:26px;height:26px;fill:#0b1a10;}
+
+  /* hero draw animation */
+  .draw{
+    stroke-dasharray:600;
+    stroke-dashoffset:600;
+    animation:draw 1.6s ease forwards;
+  }
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  .fade-in{opacity:0;animation:fadeIn .9s ease forwards;}
+  @keyframes fadeIn{to{opacity:1;}}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .draw{animation:none;stroke-dashoffset:0;}
+    .fade-in{animation:none;opacity:1;}
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 980px){
+    .hero .wrap{grid-template-columns:1fr;}
+    .hero-art{order:-1;max-width:520px;margin:0 auto;}
+    .hero-photo{min-height:auto;}
+    .stat-strip .wrap{grid-template-columns:repeat(2,1fr);}
+    .stat-cell:nth-child(3){border-left:none;}
+    .stat-cell:nth-child(3), .stat-cell:nth-child(4){border-top:1px solid var(--line-soft);}
+    .process-grid{grid-template-columns:repeat(2,1fr);}
+    .process-step:nth-child(3){border-left:none;}
+    .process-step:nth-child(3),.process-step:nth-child(4){border-top:1px solid var(--line-soft);}
+    .plans{grid-template-columns:1fr;}
+    .gallery{grid-template-columns:1fr 1fr;}
+    .testis{grid-template-columns:1fr;}
+    .contact-panel{grid-template-columns:1fr;}
+    .contact-info{border-right:none;border-bottom:1px solid var(--line-soft);}
+    .foot-top{grid-template-columns:1fr 1fr;row-gap:32px;}
+  }
+  @media (max-width: 700px){
+    nav.primary-nav{
+      position:fixed;top:72px;left:0;right:0;
+      background:var(--bg);
+      border-bottom:1px solid var(--line-soft);
+      flex-direction:column;
+      align-items:flex-start;
+      padding:22px 24px 26px;
+      gap:20px;
+      transform:translateY(-8px);
+      opacity:0;
+      pointer-events:none;
+      transition:all .18s ease;
+    }
+    nav.primary-nav.is-open{transform:translateY(0);opacity:1;pointer-events:auto;}
+    .menu-toggle{display:flex;}
+    .header-actions .btn-primary{padding:10px 14px;font-size:13.5px;}
+    .service-row{grid-template-columns:44px 1fr;}
+    .service-code{display:none;}
+    .service-desc{grid-column:2/3;}
+    .gallery{grid-template-columns:1fr;}
+    .field-row{grid-template-columns:1fr;}
+    section{padding:64px 0;}
+    .wrap{padding:0 20px;}
+    .section-head{flex-direction:column;align-items:flex-start;}
+  }
+
+  /* ---------- Refinamento visual ---------- */
+  :root{
+    --radius:12px;
+    --maxw:1200px;
+    --panel:#1a2229;
+    --panel-2:#202a32;
+  }
+  body{background:linear-gradient(180deg,#11161a 0%,#12171b 46%,#0f1418 100%);}
+  .grid-field{opacity:.55;background-size:30px 30px;mask-image:linear-gradient(to bottom,black 0%,transparent 72%);}
+  header{background:rgba(15,20,24,.82);box-shadow:0 8px 30px rgba(0,0,0,.16);}
+  .nav-row{height:76px;}
+  nav.primary-nav{gap:28px;}
+  .btn{border-radius:10px;transition:transform .15s ease,background .15s ease,border-color .15s ease,color .15s ease;}
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{box-shadow:0 10px 28px rgba(201,128,63,.16);}
+  .hero{padding:86px 0 72px !important;}
+  .hero .wrap{grid-template-columns:1.08fr .92fr;gap:72px;}
+  .hero h1{font-size:clamp(40px,5vw,64px);max-width:13ch;letter-spacing:-.035em;}
+  .hero-sub{font-size:18px;line-height:1.7;max-width:52ch;}
+  .hero-art{background:radial-gradient(circle at 45% 42%,rgba(87,201,189,.08),transparent 48%);}
+  .hero-meta{gap:18px;}
+  .hero-meta div{padding:14px 16px;background:rgba(255,255,255,.018);border:1px solid var(--line-soft);border-radius:10px;max-width:200px;}
+  .trust-strip{background:rgba(23,29,34,.72);}
+  .trust-strip .stat-cell{padding:22px 24px;}
+  .trust-strip .val{font-size:14px;color:var(--copper-bright);font-family:'IBM Plex Mono',monospace;}
+  .trust-strip .lbl{color:var(--text-muted);font-size:13.5px;line-height:1.45;}
+  section{padding:88px 0;}
+  .section-head{margin-bottom:40px;padding-bottom:22px;}
+  .section-head h2{font-size:clamp(30px,3.4vw,42px);letter-spacing:-.025em;max-width:18ch;}
+  .section-head .desc{font-size:15.5px;line-height:1.65;max-width:38ch;}
+  .service-board,.process-grid,.contact-panel{border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.12);}
+  .service-row{padding:24px 28px;grid-template-columns:56px 1.05fr 1.6fr 150px;}
+  .service-row:hover{background:linear-gradient(90deg,rgba(201,128,63,.07),rgba(87,201,189,.025));}
+  .service-icon{border-radius:10px;background:rgba(255,255,255,.018);}
+  .process-step{padding:34px 28px;min-height:190px;}
+  .plan{border-radius:14px;padding:30px;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.008));box-shadow:0 14px 40px rgba(0,0,0,.10);}
+  .plan.is-featured{transform:translateY(-6px);box-shadow:0 18px 52px rgba(201,128,63,.10);}
+  .gcard{border-radius:14px;transition:transform .18s ease,border-color .18s ease;}
+  .gcard:hover{transform:translateY(-4px);border-color:#3c4852;}
+  .gcard .art{overflow:hidden;}
+  .gcard .art img,.gcard .art video{transition:transform .35s ease;}
+  .gcard:hover .art img,.gcard:hover .art video{transform:scale(1.025);}
+  .contact-info,.contact-form{padding:48px 42px;}
+  .field input,.field select,.field textarea{border-radius:9px;min-height:46px;}
+  footer{background:#0e1317;}
+  @media(max-width:980px){.hero .wrap{gap:40px}.plan.is-featured{transform:none;}}
+  @media(max-width:700px){.hero{padding:54px 0 46px !important}.hero h1{font-size:38px}.hero-sub{font-size:16px}.header-actions .btn-primary{display:none}.hero-meta{display:grid;grid-template-columns:1fr}.hero-meta div{max-width:none}.service-row{padding:20px}.contact-info,.contact-form{padding:30px 22px}.section-head h2{font-size:31px}}
+
+
+  /* Hero 2.0 — composição ampla como a referência */
+  .hero{padding:72px 0 42px;min-height:720px;overflow:hidden;background:radial-gradient(circle at 72% 42%,rgba(201,128,63,.08),transparent 32%);}
+  .hero .wrap{max-width:1400px;grid-template-columns:minmax(430px,.78fr) minmax(600px,1.22fr);gap:18px;align-items:center;}
+  .hero .wrap>div:first-child{position:relative;z-index:3;padding:18px 0 0;}
+  .hero h1{font-size:clamp(48px,4.4vw,68px);line-height:1.08;letter-spacing:-.035em;max-width:10.5ch;}
+  .hero-sub{font-size:17px;line-height:1.7;max-width:47ch;margin-top:24px;}
+  .hero-cta{margin-top:28px;}
+  .hero-cta .btn{padding:14px 22px;border-radius:9px;}
+  .hero-photo{min-height:570px;justify-content:flex-end;margin-right:-28px;}
+  .hero-photo::before{inset:5% -4% 0 0;background:radial-gradient(circle at 55% 50%,rgba(230,163,92,.16),transparent 62%);}
+  .hero-photo img{width:100%;max-width:760px;height:570px;aspect-ratio:auto;object-fit:cover;object-position:center;border:0;border-radius:0;box-shadow:none;mask-image:linear-gradient(to right,transparent 0%,#000 12%,#000 100%);-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 12%,#000 100%);}
+  .hero-photo-badge{display:none;}
+  .hero-meta{position:absolute;left:32px;right:32px;bottom:-112px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:0;padding:0;border:0;z-index:5;}
+  .hero-meta .hero-feature{max-width:none;min-height:112px;padding:20px 22px;border:1px solid var(--line);border-radius:10px;background:rgba(17,23,27,.88);backdrop-filter:blur(12px);box-shadow:0 12px 34px rgba(0,0,0,.18);}
+  .hero-meta .n{font-size:15px;font-weight:700;}
+  .hero-meta p{font-size:13.5px;line-height:1.5;color:var(--text-muted);margin-top:14px;max-width:24ch;}
+  .hero .wrap{padding-bottom:130px;}
+  @media(max-width:1100px){.hero .wrap{grid-template-columns:1fr 1fr}.hero h1{font-size:clamp(42px,5vw,58px)}.hero-photo img{height:520px}.hero-meta{grid-template-columns:repeat(2,1fr);bottom:-205px}.hero .wrap{padding-bottom:220px}}
+  @media(max-width:760px){.hero{padding-top:48px}.hero .wrap{grid-template-columns:1fr}.hero-photo{min-height:390px;margin:8px -20px 0}.hero-photo img{height:390px;mask-image:linear-gradient(to bottom,transparent 0%,#000 12%,#000 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 12%,#000 100%)}.hero-meta{position:static;grid-template-columns:1fr 1fr;margin-top:24px}.hero .wrap{padding-bottom:0}.hero h1{font-size:clamp(40px,12vw,54px)}}
+
+
+  /* HERO FIX: conteúdo em duas colunas + diferenciais abaixo, sem sobreposição */
+  .hero{min-height:auto;padding:72px 0 58px;}
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:minmax(430px,.82fr) minmax(560px,1.18fr);
+    grid-template-rows:auto auto;
+    column-gap:42px;
+    row-gap:34px;
+    align-items:center;
+    padding-bottom:0;
+  }
+  .hero .wrap>div:first-child{padding:0;align-self:center;}
+  .hero-photo{min-height:500px;margin:0;align-self:center;}
+  .hero-photo img{height:500px;max-width:760px;object-position:center;}
+  .hero-meta{
+    position:static;
+    grid-column:1 / -1;
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:18px;
+    margin:0;
+    padding:0;
+    border:0;
+    width:100%;
+  }
+  .hero-meta .hero-feature{min-height:112px;max-width:none;padding:20px 22px;}
+  @media(max-width:1100px){
+    .hero .wrap{grid-template-columns:1fr 1fr;column-gap:28px;row-gap:30px;padding-bottom:0;}
+    .hero-photo{min-height:440px;}
+    .hero-photo img{height:440px;}
+    .hero-meta{position:static;grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:760px){
+    .hero .wrap{grid-template-columns:1fr;row-gap:24px;padding-bottom:0;}
+    .hero-photo{min-height:360px;margin:0 -20px;}
+    .hero-photo img{height:360px;}
+    .hero-meta{grid-column:1;grid-template-columns:1fr 1fr;margin-top:0;}
+  }
+  @media(max-width:480px){.hero-meta{grid-template-columns:1fr;}}
+
+
+
+  /* ===== HERO V3 — mesma estrutura HTML; apenas layout corrigido ===== */
+  .hero{
+    padding:42px 0 64px !important;
+    min-height:auto !important;
+    overflow:visible;
+    background:var(--bg);
+  }
+  .hero .wrap{
+    position:relative;
+    display:block !important;
+    max-width:1180px;
+    min-height:700px;
+    padding:0 32px !important;
+    overflow:hidden;
+  }
+
+  /* A foto vira o plano visual de todo o hero, como na referência. */
+  .hero-art.hero-photo{
+    position:absolute !important;
+    inset:0 32px 0 32px;
+    width:auto;
+    min-height:0 !important;
+    height:100%;
+    margin:0 !important;
+    display:block;
+    z-index:0;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.035);
+  }
+  .hero-art.hero-photo::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:2;
+    pointer-events:none;
+    background:
+      linear-gradient(90deg, rgba(10,15,18,.98) 0%, rgba(10,15,18,.92) 30%, rgba(10,15,18,.58) 47%, rgba(10,15,18,.10) 66%, rgba(10,15,18,.05) 100%),
+      linear-gradient(0deg, rgba(10,15,18,.88) 0%, rgba(10,15,18,.18) 27%, rgba(10,15,18,0) 50%);
+    filter:none;
+  }
+  .hero-art.hero-photo::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    box-shadow:inset 0 0 85px rgba(0,0,0,.28);
+  }
+  .hero-photo img{
+    position:absolute !important;
+    inset:0;
+    width:100% !important;
+    height:100% !important;
+    max-width:none !important;
+    aspect-ratio:auto !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    mask-image:none !important;
+    -webkit-mask-image:none !important;
+  }
+  .hero-photo-badge{display:none !important;}
+
+  /* Conteúdo à esquerda, sobre a foto. */
+  .hero .wrap>div:first-child{
+    position:relative !important;
+    z-index:4;
+    width:49%;
+    max-width:545px;
+    padding:34px 0 0 0 !important;
+  }
+  .hero .kicker{
+    margin-bottom:22px;
+    background:rgba(12,18,21,.56);
+    backdrop-filter:blur(8px);
+    border-color:rgba(147,162,172,.24);
+    white-space:nowrap;
+  }
+  .hero h1{
+    font-size:clamp(48px,4.55vw,66px) !important;
+    line-height:1.04 !important;
+    letter-spacing:-.042em !important;
+    max-width:9.8ch !important;
+  }
+  .hero-sub{
+    margin-top:24px !important;
+    max-width:43ch !important;
+    font-size:16px !important;
+    line-height:1.65 !important;
+    color:#a8b3ba !important;
+  }
+  .hero-cta{margin-top:27px !important;gap:16px !important;}
+  .hero-cta .btn{padding:13px 21px !important;border-radius:8px !important;}
+
+  /* Os quatro cards ficam presos ao rodapé do hero. */
+  .hero-meta{
+    position:absolute !important;
+    left:72px !important;
+    right:72px !important;
+    bottom:28px !important;
+    z-index:5 !important;
+    display:grid !important;
+    grid-template-columns:repeat(4,1fr) !important;
+    gap:18px !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+  }
+  .hero-meta .hero-feature{
+    min-height:112px !important;
+    max-width:none !important;
+    padding:18px 20px !important;
+    border:1px solid rgba(147,162,172,.22) !important;
+    border-radius:8px !important;
+    background:rgba(10,16,19,.73) !important;
+    backdrop-filter:blur(9px);
+    box-shadow:none !important;
+  }
+  .hero-meta .n{
+    font-size:16px !important;
+    font-weight:700;
+    color:var(--copper-bright);
+  }
+  .hero-meta p{
+    margin-top:14px !important;
+    max-width:23ch !important;
+    font-size:13px !important;
+    line-height:1.45 !important;
+    color:#aab4ba !important;
+  }
+
+  @media(max-width:980px){
+    .hero .wrap{min-height:760px;}
+    .hero .wrap>div:first-child{width:58%;}
+    .hero-meta{left:52px !important;right:52px !important;grid-template-columns:repeat(2,1fr) !important;}
+  }
+  @media(max-width:700px){
+    .hero{padding:22px 0 38px !important;}
+    .hero .wrap{min-height:auto;padding:0 20px !important;overflow:visible;}
+    .hero-art.hero-photo{position:relative !important;inset:auto;width:100%;height:340px;margin:24px 0 0 !important;}
+    .hero-art.hero-photo::before{background:linear-gradient(0deg,rgba(10,15,18,.72),rgba(10,15,18,.06) 60%);}
+    .hero .wrap>div:first-child{width:100%;max-width:none;padding:20px 0 0 !important;}
+    .hero .kicker{white-space:normal;}
+    .hero h1{font-size:clamp(40px,11vw,52px) !important;max-width:10ch !important;}
+    .hero-meta{position:static !important;grid-template-columns:1fr 1fr !important;margin-top:18px !important;}
+  }
+  @media(max-width:480px){
+    .hero-meta{grid-template-columns:1fr !important;}
+  }
+
+
+/* ===== HERO FINAL — layout profissional, sem alterar a estrutura HTML ===== */
+@media (min-width: 981px){
+  .hero{
+    padding:56px 0 46px !important;
+    overflow:hidden !important;
+  }
+  .hero .wrap{
+    max-width:1320px !important;
+    min-height:0 !important;
+    padding:0 32px !important;
+    display:grid !important;
+    grid-template-columns:minmax(0, .88fr) minmax(560px, 1.12fr) !important;
+    grid-template-rows:auto auto !important;
+    column-gap:0 !important;
+    row-gap:30px !important;
+    align-items:stretch !important;
+    overflow:visible !important;
+  }
+  .hero .wrap > div:first-child{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    position:relative !important;
+    z-index:4 !important;
+    width:auto !important;
+    max-width:none !important;
+    min-height:560px !important;
+    padding:38px 34px 34px 0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important;
+    background:linear-gradient(90deg, rgba(18,22,26,1) 0%, rgba(18,22,26,.98) 72%, rgba(18,22,26,.84) 100%) !important;
+  }
+  .hero-art.hero-photo{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    position:relative !important;
+    inset:auto !important;
+    width:100% !important;
+    height:560px !important;
+    min-height:560px !important;
+    margin:0 !important;
+    z-index:1 !important;
+    overflow:hidden !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:#0d1215 !important;
+  }
+  .hero-art.hero-photo::before{
+    background:linear-gradient(90deg, rgba(18,22,26,.90) 0%, rgba(18,22,26,.28) 12%, rgba(18,22,26,0) 30%) !important;
+  }
+  .hero-art.hero-photo::after{
+    box-shadow:inset 0 -50px 65px rgba(10,14,17,.18) !important;
+  }
+  .hero-photo img{
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:50% 50% !important;
+  }
+  .hero .kicker{
+    align-self:flex-start !important;
+    white-space:nowrap !important;
+    margin-bottom:24px !important;
+  }
+  .hero h1{
+    font-size:clamp(48px,4vw,64px) !important;
+    line-height:1.03 !important;
+    letter-spacing:-.04em !important;
+    max-width:10.5ch !important;
+  }
+  .hero-sub{
+    max-width:46ch !important;
+    margin-top:24px !important;
+    font-size:16px !important;
+    line-height:1.65 !important;
+  }
+  .hero-cta{
+    margin-top:28px !important;
+  }
+  .hero-meta{
+    grid-column:1 / -1 !important;
+    grid-row:2 !important;
+    position:relative !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    width:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:18px !important;
+    z-index:5 !important;
+  }
+  .hero-meta .hero-feature{
+    min-height:112px !important;
+    padding:20px 22px !important;
+    border:1px solid var(--line) !important;
+    border-radius:8px !important;
+    background:linear-gradient(180deg, rgba(28,36,43,.92), rgba(20,27,32,.92)) !important;
+    backdrop-filter:none !important;
+    transition:transform .18s ease,border-color .18s ease,background .18s ease !important;
+  }
+  .hero-meta .hero-feature:hover{
+    transform:translateY(-3px) !important;
+    border-color:rgba(230,163,92,.55) !important;
+    background:var(--panel) !important;
+  }
+  .hero-meta .n{font-size:15px !important;}
+  .hero-meta p{margin-top:12px !important;font-size:13px !important;max-width:25ch !important;}
+}
+
+@media (max-width: 980px){
+  .hero .wrap{
+    min-height:0 !important;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:22px !important;
+  }
+  .hero .wrap > div:first-child{width:100% !important;max-width:650px !important;padding-top:20px !important;}
+  .hero-art.hero-photo{position:relative !important;inset:auto !important;width:100% !important;height:520px !important;margin:0 !important;}
+  .hero-photo img{object-fit:cover !important;object-position:center !important;}
+  .hero-meta{position:relative !important;left:auto !important;right:auto !important;bottom:auto !important;grid-template-columns:repeat(2,1fr) !important;margin-top:0 !important;}
+}
+@media (max-width: 700px){
+  .hero-art.hero-photo{height:390px !important;}
+  .hero-meta{grid-template-columns:1fr 1fr !important;}
+}
+@media (max-width: 480px){
+  .hero-meta{grid-template-columns:1fr !important;}
+}
+
+
+/* FEATURE CARDS — ajuste visual conforme referência */
+.hero-meta .hero-feature{
+  min-height:100px !important;
+  padding:18px 20px 17px !important;
+  border:1px solid #263139 !important;
+  border-radius:8px !important;
+  background:linear-gradient(180deg,rgba(15,22,26,.96),rgba(13,20,24,.96)) !important;
+  box-shadow:none !important;
+}
+.hero-meta .feature-top{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.hero-meta .feature-top svg{width:22px;height:22px;stroke:#e79036;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none;}
+.hero-meta .n{font-family:'IBM Plex Mono',monospace !important;font-size:14px !important;font-weight:500 !important;color:#f0a04b !important;}
+.hero-meta p{margin-top:14px !important;font-size:13px !important;line-height:1.45 !important;color:#a8b3ba !important;max-width:none !important;}
+.hero-meta{gap:18px !important;}
+
+
+/* FEATURE CARDS FINAL — flat layout, sem caixa interna */
+.hero-meta .hero-feature{
+  min-height:100px !important; padding:18px 20px !important;
+  border:1px solid #263139 !important; border-radius:8px !important;
+  background:rgba(13,20,24,.96) !important; display:block !important;
+}
+.hero-meta .hero-feature .feature-top{
+  width:100% !important; max-width:none !important; height:auto !important; min-height:24px !important;
+  margin:0 !important; padding:0 !important; border:0 !important; border-radius:0 !important;
+  background:transparent !important; box-shadow:none !important;
+  display:flex !important; align-items:center !important; justify-content:space-between !important;
+}
+.hero-meta .hero-feature .n{
+  width:auto !important; max-width:none !important; height:auto !important; margin:0 !important; padding:0 !important;
+  border:0 !important; background:transparent !important; box-shadow:none !important;
+  color:#f0a04b !important; font-size:14px !important; line-height:24px !important;
+}
+.hero-meta .hero-feature .feature-top svg{width:20px !important;height:20px !important;margin:0 !important;}
+.hero-meta .hero-feature p{margin:13px 0 0 !important;padding:0 !important;font-size:13px !important;line-height:1.45 !important;}
+
+</style>
+</head>
+<body>
+
+<div class="grid-field" aria-hidden="true"></div>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <div class="wrap nav-row">
+    <a href="#inicio" class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="3" width="26" height="26" rx="2" stroke="#c9803f" stroke-width="2"/>
+        <path d="M9 22V14L16 9L23 14V22" stroke="#57c9bd" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="16" cy="17" r="2" fill="#e6a35c"/>
+      </svg>
+      <span>BANCADA<span style="color:var(--copper-bright)">.gg</span>
+        <small>MONTAGEM &amp; MANUTENÇÃO GAMER</small>
+      </span>
+    </a>
+
+    <nav class="primary-nav" id="primaryNav">
+      <a href="#servicos">Serviços</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#planos">Planos</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="#contato" class="btn btn-primary">Pedir orçamento</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <span class="kicker"><span class="dot"></span> Atendimento online · serviços presenciais via envio do equipamento</span>
+      <h1>Seu PC com <span class="accent">desempenho, estabilidade</span> e montagem bem-feita.</h1>
+      <p class="hero-sub">Montagem, manutenção e upgrade de PC gamer com diagnóstico antes do serviço, orçamento aprovado por você e testes de estabilidade antes da devolução.</p>
+      <div class="hero-cta">
+        <a href="#contato" class="btn btn-primary">Pedir orçamento</a>
+        <a href="#servicos" class="btn btn-ghost">Ver serviços</a>
+      </div>
+    </div>
+
+    <div class="hero-art hero-photo">
+      <img src="pc-gamer-hero.png" alt="PC gamer premium com gabinete de vidro, water cooler, placa de vídeo e iluminação em tons de laranja" loading="eager" fetchpriority="high">
+      <div class="hero-photo-badge"><span></span> Montagem gamer premium</div>
+    </div>
+
+    <div class="hero-meta">
+      <div class="hero-feature"><div class="feature-top"><div class="n">01</div><svg viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><p>Diagnóstico antes de<br>recomendar troca de peça</p></div>
+      <div class="hero-feature"><div class="feature-top"><div class="n">02</div><svg viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><p>Testes de temperatura e<br>estabilidade antes da entrega</p></div>
+      <div class="hero-feature"><div class="feature-top"><div class="n">03</div><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.09A1.7 1.7 0 0 0 9 19.36a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.63 15 1.7 1.7 0 0 0 3.09 14H3v-4h.09A1.7 1.7 0 0 0 4.64 9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.63 1.7 1.7 0 0 0 10 3.09V3h4v.09A1.7 1.7 0 0 0 15 4.64a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.37 9c.13.39.5.98 1.54 1H21v4h-.09A1.7 1.7 0 0 0 19.4 15z"/></svg></div><p>Orçamento transparente<br>e sem letras miúdas</p></div>
+      <div class="hero-feature"><div class="feature-top"><div class="n">04</div><svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></div><p>Atendimento em<br>Santo André/SP</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVIÇOS ================= -->
+<section id="servicos">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="tag">Quadro de serviços</span>
+        <h2>Tudo que sua máquina precisa, num só lugar.</h2>
+      </div>
+      <p class="desc">Da montagem do zero à manutenção de rotina — cada serviço é feito na bancada, com registro fotográfico do processo.</p>
+    </div>
+
+    <div class="service-board">
+      <div class="service-row">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div class="service-name"><h3>Montagem sob medida</h3></div>
+        <div class="service-desc">Escolha de peças por orçamento e objetivo, montagem, organização de cabos e teste de estresse antes da entrega.</div>
+        <div class="service-code">SRV<span>·01</span> a partir de 2h</div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10.55M8 21h8M9 17h6a3 3 0 0 0 3-3V9H6v5a3 3 0 0 0 3 3z"/></svg>
+        </div>
+        <div class="service-name"><h3>Manutenção preventiva</h3></div>
+        <div class="service-desc">Limpeza interna, troca de pasta térmica, revisão de coolers e fans, checagem de temperaturas em carga real.</div>
+        <div class="service-code">SRV<span>·02</span> a partir de 1h</div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>
+        </div>
+        <div class="service-name"><h3>Diagnóstico e upgrade</h3></div>
+        <div class="service-desc">Identificação de gargalo real de FPS, indicação honesta de upgrade de GPU, RAM ou armazenamento.</div>
+        <div class="service-code">SRV<span>·03</span> a partir de 45min</div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-3.5 5.5-6 8.6-6 12a6 6 0 0 0 12 0c0-3.4-2.5-6.5-6-12z"/></svg>
+        </div>
+        <div class="service-name"><h3>Water cooling e modding</h3></div>
+        <div class="service-desc">Custom loop, hardline ou softline, iluminação ARGB e personalização de gabinete com acabamento de vitrine.</div>
+        <div class="service-code">SRV<span>·04</span> sob orçamento</div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M4 20L20 4"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+        </div>
+        <div class="service-name"><h3>Formatação e otimização</h3></div>
+        <div class="service-desc">Sistema limpo, drivers corretos, ajuste de BIOS e curva de fans, otimização para jogos e streaming.</div>
+        <div class="service-code">SRV<span>·05</span> a partir de 1h30</div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
+        </div>
+        <div class="service-name"><h3>Suporte remoto</h3></div>
+        <div class="service-desc">Ajuste de configurações, drivers e desempenho de jogos à distância, via acesso remoto agendado.</div>
+        <div class="service-code">SRV<span>·06</span> sessões de 30min</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMO FUNCIONA ================= -->
+<section id="como-funciona" style="background:var(--bg-alt);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="tag">Fluxo de atendimento</span>
+        <h2>Do primeiro contato ao PC na sua mesa.</h2>
+      </div>
+      <p class="desc">Quatro etapas, sempre nessa ordem — sem surpresa no meio do caminho.</p>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="num mono">01</div>
+        <h3>Diagnóstico</h3>
+        <p>Você conta o que precisa ou traz o PC com problema. Avaliamos peças, compatibilidade e causa real da falha.</p>
+      </div>
+      <div class="process-step">
+        <div class="num mono">02</div>
+        <h3>Orçamento</h3>
+        <p>Orçamento detalhado, com peças, mão de obra e prazo — aprovado por você antes de qualquer serviço começar.</p>
+      </div>
+      <div class="process-step">
+        <div class="num mono">03</div>
+        <h3>Execução</h3>
+        <p>Montagem ou reparo na bancada, com fotos do processo e testes de estresse em jogo real.</p>
+      </div>
+      <div class="process-step">
+        <div class="num mono">04</div>
+        <h3>Entrega</h3>
+        <p>PC testado, checklist de entrega assinado e garantia de 90 dias no serviço executado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PLANOS ================= -->
+<section id="planos">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="tag">Manutenção recorrente</span>
+        <h2>Um plano pra cada tipo de uso.</h2>
+      </div>
+      <p class="desc">Evite o problema antes dele derrubar seu FPS — ou sua live.</p>
+    </div>
+
+    <div class="plans">
+      <div class="plan">
+        <span class="plan-tag">CASUAL</span>
+        <h3>Revisão anual</h3>
+        <p class="who">Pra quem joga algumas vezes por semana e quer o PC saudável o ano todo.</p>
+        <ul class="plan-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Limpeza interna completa</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Troca de pasta térmica</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Checagem geral de temperaturas</li>
+        </ul>
+        <a href="#contato" class="btn btn-ghost">Quero esse plano</a>
+      </div>
+
+      <div class="plan is-featured">
+        <span class="plan-tag is-on">COMPETITIVO</span>
+        <h3>Revisão semestral</h3>
+        <p class="who">Pra quem joga ranqueado ou competitivo e não pode travar no momento errado.</p>
+        <ul class="plan-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Tudo do plano Casual</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Otimização de FPS e latência</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Ajuste de curva de fans e ruído</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Atendimento prioritário</li>
+        </ul>
+        <a href="#contato" class="btn btn-primary">Quero esse plano</a>
+      </div>
+
+      <div class="plan">
+        <span class="plan-tag">CRIADOR</span>
+        <h3>Revisão trimestral</h3>
+        <p class="who">Pra quem grava, edita ou faz live e depende do PC pra trabalhar.</p>
+        <ul class="plan-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Tudo do plano Competitivo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Monitoramento remoto de saúde do PC</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Otimização de gravação e streaming</li>
+        </ul>
+        <a href="#contato" class="btn btn-ghost">Quero esse plano</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJETOS ================= -->
+<section id="projetos" style="background:var(--bg-alt);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="tag">Bancada de projetos</span>
+        <h2>Alguns builds que saíram daqui.</h2>
+      </div>
+      <p class="desc">Referências visuais de setups e configurações que representam os tipos de projeto atendidos pela bancada.</p>
+    </div>
+
+    <div class="gallery">
+      <div class="gcard">
+        <div class="art">
+          <img src="https://images.unsplash.com/photo-1738347826086-cadfac03cd45?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Close-up de PC gamer montado, com cooler e placa de vídeo em destaque" loading="lazy">
+        </div>
+        <div class="meta">
+          <h3>Setup ITX compacto</h3>
+          <div class="specs">CPU <span>Ryzen 5</span> · GPU <span>RTX 4060</span><br>Uso <span>Competitivo / FHD 240Hz</span></div>
+        </div>
+      </div>
+
+      <div class="gcard">
+        <div class="art">
+          <img src="https://images.unsplash.com/photo-1754821305525-8517ea0737fb?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Gabinete gamer com iluminação LED azul e cabeamento organizado" loading="lazy">
+        </div>
+        <div class="meta">
+          <h3>Full tower ARGB</h3>
+          <div class="specs">CPU <span>Ryzen 9</span> · GPU <span>RTX 4080</span><br>Uso <span>Streaming / criação de conteúdo</span></div>
+        </div>
+      </div>
+
+      <div class="gcard">
+        <div class="art">
+          <img src="https://images.unsplash.com/photo-1737918543099-dfa8ec2e3909?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Placa-mãe e cooler de PC gamer com iluminação roxa" loading="lazy">
+        </div>
+        <div class="meta">
+          <h3>Workstation de renderização</h3>
+          <div class="specs">CPU <span>Intel i9</span> · GPU <span>RTX 4070 Ti</span><br>Uso <span>Edição / render 3D</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BANNER FOTO ================= -->
+<section style="padding:0;">
+  <div style="position:relative; min-height:340px; display:flex; align-items:center; overflow:hidden;">
+    <img src="https://images.unsplash.com/photo-1675049651776-7b895d48916b?fm=jpg&q=80&w=1600&auto=format&fit=crop" alt="Setup gamer com múltiplos monitores e iluminação vermelha" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+    <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(18,22,26,0.94) 20%, rgba(18,22,26,0.55) 60%, rgba(18,22,26,0.25) 100%);"></div>
+    <div class="wrap" style="position:relative; z-index:1;">
+      <span class="tag" style="display:block;">Do jeito que o seu setup merece</span>
+      <h2 style="max-width:22ch; font-size:clamp(24px,3.4vw,34px);">Cada PC volta da bancada testado em jogo real, não só ligado.</h2>
+      <p style="margin-top:16px; max-width:44ch; color:var(--text-muted); font-size:15px;">Não entregamos uma máquina só "funcionando". Rodamos benchmark, checamos temperatura sob carga e só devolvemos quando o desempenho bate com o que foi prometido no orçamento.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VÍDEOS ================= -->
+<section id="videos">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="tag">Bastidores da bancada</span>
+        <h2>Um pouco do processo, em vídeo.</h2>
+      </div>
+      <p class="desc">Vídeos curtos mostrando etapas de inspeção, montagem e cuidado com os componentes.</p>
+    </div>
+
+    <div class="gallery">
+      <div class="gcard">
+        <div class="art" style="aspect-ratio:16/10;">
+          <video src="https://assets.mixkit.co/06rz0x3kwhxyl5heyl98ubrf31eu" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+        </div>
+        <div class="meta">
+          <h3>Revisão de placa-mãe</h3>
+          <div class="specs">Checagem ponto a ponto <span>antes da montagem final</span></div>
+        </div>
+      </div>
+
+      <div class="gcard">
+        <div class="art" style="aspect-ratio:16/10;">
+          <video src="https://assets.mixkit.co/m9q1ipmrykpg9076cw6z130g872z" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+        </div>
+        <div class="meta">
+          <h3>Inspeção de componentes</h3>
+          <div class="specs">Verificação de contatos e trilhas <span>antes do primeiro boot</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= CONTATO ================= -->
+<section id="contato" style="background:var(--bg-alt);border-top:1px solid var(--line-soft);">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="tag">Fale com a bancada</span>
+        <h2>Vamos ver o que seu PC precisa.</h2>
+      </div>
+      <p class="desc">Responde mais rápido pelo WhatsApp — o formulário já monta a mensagem pra você.</p>
+    </div>
+
+    <div class="contact-panel">
+      <div class="contact-info">
+        <h3>Atendimento online e envio seguro</h3>
+        <p>O primeiro atendimento é feito pelo WhatsApp. Quando o serviço exige intervenção física, combinamos o envio do equipamento e passamos as orientações de embalagem, transporte e devolução.</p>
+        <ul class="contact-list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div><b>Envio do equipamento</b>Endereço e instruções são enviados após a aprovação do orçamento.<br>Atendimento com base em Santo André — SP</div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 2.9a2 2 0 0 1-.4 2.1L8 10a16 16 0 0 0 6 6l1.3-1.4a2 2 0 0 1 2.1-.4c.9.4 1.9.6 2.9.7a2 2 0 0 1 1.7 2z"/></svg>
+            <div><b>WhatsApp</b>(11) 97606-5170</div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 2.9a2 2 0 0 1-.4 2.1L8 10a16 16 0 0 0 6 6l1.3-1.4a2 2 0 0 1 2.1-.4c.9.4 1.9.6 2.9.7a2 2 0 0 1 1.7 2z"/></svg>
+            <div><b>Telefone</b>(11) 97606-5170</div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            <div><b>E-mail</b>contato@bancada.gg</div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <div><b>Horário</b>Seg. a sáb., 9h às 18h</div>
+          </li>
+        </ul>
+      </div>
+
+      <form class="contact-form" id="orcamentoForm">
+        <div class="field">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" required placeholder="Seu nome">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="whats">WhatsApp</label>
+            <input type="tel" id="whats" required placeholder="(11) 90000-0000">
+          </div>
+          <div class="field">
+            <label for="servico">Serviço</label>
+            <select id="servico">
+              <option>Montagem sob medida</option>
+              <option>Manutenção preventiva</option>
+              <option>Diagnóstico e upgrade</option>
+              <option>Water cooling e modding</option>
+              <option>Formatação e otimização</option>
+              <option>Suporte remoto</option>
+              <option>Outro</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="msg">O que está acontecendo?</label>
+          <textarea id="msg" placeholder="Conte o problema, ou as peças que já tem em mãos"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar pelo WhatsApp</button>
+        <p class="form-note">Ao enviar, abrimos o WhatsApp com sua mensagem já preenchida — nada é salvo neste site.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="brand">
+          <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="26" height="26" rx="2" stroke="#c9803f" stroke-width="2"/>
+            <path d="M9 22V14L16 9L23 14V22" stroke="#57c9bd" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="16" cy="17" r="2" fill="#e6a35c"/>
+          </svg>
+          <span>BANCADA<span style="color:var(--copper-bright)">.gg</span></span>
+        </div>
+        <p>Montagem, manutenção e upgrade de PC gamer. Diagnóstico honesto, orçamento claro e garantia em todo serviço.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#planos">Planos</a></li>
+          <li><a href="#projetos">Projetos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="#servicos">Montagem sob medida</a></li>
+          <li><a href="#servicos">Manutenção preventiva</a></li>
+          <li><a href="#servicos">Diagnóstico e upgrade</a></li>
+          <li><a href="#servicos">Water cooling e modding</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Institucional</h4>
+        <ul>
+          <li><a href="#contato">Privacidade e atendimento</a></li>
+          <li><a href="#contato">Garantia dos serviços</a></li>
+          <li><a href="#contato">Fale conosco</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Bancada.gg — Todos os direitos reservados.</span>
+</div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5511976065170" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.7 14.3c-.2.7-1.4 1.3-2 1.4-.5.1-1.1.1-1.8-.1a15 15 0 0 1-6.6-4.9c-1-1.3-1.6-2.6-1.8-3.4a3.5 3.5 0 0 1 0-1.9c.2-.6 1.1-1.5 1.5-1.6.3-.1.7-.1.9 0l.9 1.7c.1.2.1.4 0 .6l-.6.9c-.1.2-.1.4 0 .6.4.8 1 1.5 1.7 2.1.7.6 1.5 1.1 2.3 1.4.2.1.4.1.6-.1l.8-.9c.2-.2.4-.2.6-.1l1.7 1c.2.1.3.3.3.5 0 .3 0 .7-.1.9z"/></svg>
+</a>
+
+<script>
+  // respect reduced motion for background videos
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video[autoplay]').forEach(v => { v.removeAttribute('autoplay'); v.pause(); });
+  }
+
+  const menuToggle = document.getElementById('menuToggle');
+  const primaryNav = document.getElementById('primaryNav');
+  menuToggle.addEventListener('click', () => {
+    const isOpen = primaryNav.classList.toggle('is-open');
+    menuToggle.setAttribute('aria-expanded', isOpen);
+  });
+  primaryNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    primaryNav.classList.remove('is-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // budget form -> whatsapp deep link
+  document.getElementById('orcamentoForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const nome = document.getElementById('nome').value.trim();
+    const whats = document.getElementById('whats').value.trim();
+    const servico = document.getElementById('servico').value;
+    const msg = document.getElementById('msg').value.trim();
+
+    const texto = `Olá! Meu nome é ${nome}.%0AMeu WhatsApp: ${whats}%0AServiço de interesse: ${servico}%0A%0ADetalhes: ${msg || 'sem detalhes adicionais'}`;
+    const numeroLoja = '5511976065170'; // Whats dos especialistas
+    window.open(`https://wa.me/${numeroLoja}?text=${texto}`, '_blank');
+  });
+</script>
+
+</body>
+</html>
