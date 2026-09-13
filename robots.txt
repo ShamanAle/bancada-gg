@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bancadagg.com.br/sitemap.xml
